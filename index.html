@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO connector</title>
+    <script src="/socket.io/socket.io.js"></script>
+  </head>
+  <body>
+    <img id="targetImg" />
+
+    
+    <script>
+      var socket = io();
+      var currentSrc = null;
+      
+      socket.on('webhook', function(msg) {
+        console.log('recieved a webhook event: ', msg);
+        if(msg.type == 'transport-state') {
+          if(msg.data && msg.data.state && msg.data.state.currentTrack) {
+          	var track = msg.data.state.currentTrack;
+          	if(track.absoluteAlbumArtUri && track.absoluteAlbumArtUri != currentSrc) {
+          	  currentSrc = track.absoluteAlbumArtUri;
+          	  var img = document.getElementById("targetImg");
+              img.src = currentSrc;
+            }
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
