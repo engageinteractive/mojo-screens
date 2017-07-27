@@ -11,9 +11,12 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "consolidate": "^0.14.5",
     "express": "^4.15.2",
+    "handlebars": "^4.0.10",
     "normalize.css": "^7.0.0",
     "socket.io": "^1.7.3",
-    "sonos": "^0.15.0"
+    "sonos": "^0.15.0",
+    "swig": "^1.4.2"
   }
 }

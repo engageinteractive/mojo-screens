@@ -1,4 +1,5 @@
 var express = require('express');
+var cons = require('consolidate');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -7,8 +8,17 @@ var path = require('path');
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.engine('html', cons.swig)
+
+app.set('view engine', 'html')
+app.set('views', __dirname + '/public/views')
+
+console.log(process.argv[2]);
+
 app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
+  res.render('index', {
+    host: process.argv[2]
+  })
 });
 
 io.on('connection', function(socket){

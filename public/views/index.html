@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Socket.IO connector</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="current-track-info">
+            <h4 class="no-m-t txt-up elo">Now Playing</h4>
+            <div class="artist mocha">&nbsp;</div>
+            <div class="album parcel">&nbsp;</div>
+        </div>
+        <div class="wrapper">
+            <div class="col txt-c prev">
+                <div class="track-info">
+                    <h4 class="no-m-t txt-up elo">Previous</h4>
+                    <div class="artist mocha">&nbsp;</div>
+                    <div class="album parcel">&nbsp;</div>
+                </div>
+                <div class="record">
+                    <img src="img/vinyl-placeholder.jpg" id="prevTrackArtwork" class="circle" />
+                </div>
+            </div>
+            <div class="col txt-c current">
+                <div class="record">
+                    <img src="img/vinyl-placeholder.jpg" id="currentTrackArtwork" class="circle" />
+                </div>
+            </div>
+            <div class="col txt-c next">
+                <div class="track-info">
+                    <h4 class="no-m-t txt-up elo">Next</h4>
+                    <div class="artist mocha">&nbsp;</div>
+                    <div class="album parcel">&nbsp;</div>
+                </div>
+                <div class="record">
+                    <img src="img/vinyl-placeholder.jpg" id="nextTrackArtwork" class="circle" />
+                </div>
+            </div>
+        </div>
+    
+        <script>
+        var socket = io();
+        var prevTrack = {
+            artist: null,
+            title: null,
+            absoluteAlbumArtUri: null
+        };
+        var currentTrack = {
+            artist: null,
+            title: null,
+            absoluteAlbumArtUri: null
+        };
+        var nextTrack = {
+            artist: null,
+            title: null,
+            absoluteAlbumArtUri: null
+        };
+
+        $(function() {
+            getTracks();
+
+            var interval = setInterval(function() {
+                getTracks();
+            }, 15000);
+        });
+
+        function getTracks() {
+            $.getJSON("{{ host }}:5005/zones", function( data ) {
+                for (var key in data) {
+                    if (!data.hasOwnProperty(key)) continue;
+                    var player = data[key];
+
+                    if(player.coordinator.state.playbackState == 'PLAYING') {
+                        if(player.coordinator.state.currentTrack.artist != currentTrack.artist || player.coordinator.state.currentTrack.title != currentTrack.title) {
+                            if(currentTrack.artist && currentTrack.album && currentTrack.absoluteAlbumArtUri) {
+                                prevTrack = currentTrack;
+                                var img = document.getElementById("prevTrackArtwork");
+                                img.src = prevTrack.absoluteAlbumArtUri;
+
+                                document.querySelector(".prev .artist").textContent = prevTrack.artist;
+                                document.querySelector(".prev .album").textContent = prevTrack.title;
+                            }
+
+                            currentTrack = player.coordinator.state.currentTrack;
+
+                            var img = document.getElementById("currentTrackArtwork");
+                            img.src = currentTrack.absoluteAlbumArtUri;
+
+                            document.querySelector(".current-track-info .artist").textContent = currentTrack.artist;
+                            document.querySelector(".current-track-info .album").textContent = currentTrack.title;
+                        }
+
+                        if(player.coordinator.state.nextTrack.artist != nextTrack.artist || player.coordinator.state.nextTrack.title != nextTrack.title) {
+                            nextTrack = player.coordinator.state.nextTrack;
+                            
+                            var img = document.getElementById("nextTrackArtwork");
+                            img.src = nextTrack.absoluteAlbumArtUri;
+
+                            document.querySelector(".next .artist").textContent = nextTrack.artist;
+                            document.querySelector(".next .album").textContent = nextTrack.title;
+                        }
+                    }
+                }
+            });
+        };
+
+      
+        /*socket.on('webhook', function(msg) {
+            console.log('recieved a webhook event: ', msg);
+            if(msg.type == 'transport-state') {
+                if(msg.data && msg.data.state && msg.data.state.currentTrack) {
+                    if(msg.data.state.currentTrack.artist != currentTrack.artist || msg.data.state.currentTrack.title != currentTrack.title) {
+
+                        if(currentTrack) {
+                            prevTrack = currentTrack;
+                            var img = document.getElementById("prevTrackArtwork");
+                            img.src = prevTrack.absoluteAlbumArtUri;
+
+                            document.querySelector(".prev .artist").textContent = prevTrack.artist;
+                            document.querySelector(".prev .album").textContent = prevTrack.title;
+                        }
+
+                        currentTrack = msg.data.state.currentTrack;
+
+                        var img = document.getElementById("currentTrackArtwork");
+                        img.src = currentTrack.absoluteAlbumArtUri;
+
+                        document.querySelector(".current-track-info .artist").textContent = currentTrack.artist;
+                        document.querySelector(".current-track-info .album").textContent = currentTrack.title;
+                    }
+                }
+                if(msg.data && msg.data.state && msg.data.state.nextTrack) {
+                    if(msg.data.state.nextTrack.artist != nextTrack.artist || msg.data.state.nextTrack.title != nextTrack.title) {
+                        
+                        nextTrack = msg.data.state.nextTrack;
+
+                        var img = document.getElementById("nextTrackArtwork");
+                        img.src = nextTrack.absoluteAlbumArtUri;
+
+                        document.querySelector(".next .artist").textContent = nextTrack.artist;
+                        document.querySelector(".next .album").textContent = nextTrack.title;
+                    }
+                }
+            }
+        });*/
+        </script>
+    </body>
+</html>
