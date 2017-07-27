@@ -13,11 +13,11 @@ app.engine('html', cons.swig)
 app.set('view engine', 'html')
 app.set('views', __dirname + '/public/views')
 
-console.log(process.argv[2]);
+console.log(process.env.SONOS_API_HOST);
 
 app.get('/', function(req, res){
   res.render('index', {
-    host: process.argv[2]
+    host: process.env.SONOS_API_HOST
   })
 });
 

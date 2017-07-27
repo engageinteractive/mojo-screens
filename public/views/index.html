@@ -68,7 +68,7 @@
         });
 
         function getTracks() {
-            $.getJSON("{{ host }}:5005/zones", function( data ) {
+            $.getJSON("http://{{ host }}:5005/zones", function( data ) {
                 for (var key in data) {
                     if (!data.hasOwnProperty(key)) continue;
                     var player = data[key];
@@ -106,7 +106,6 @@
                 }
             });
         };
-
       
         /*socket.on('webhook', function(msg) {
             console.log('recieved a webhook event: ', msg);
