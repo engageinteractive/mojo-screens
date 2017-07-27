@@ -146,8 +146,9 @@ h4 {
 
 .track-info {
 	position: absolute;
-	top: -30%;
-	left: -15%;
+	top: -40%;
+	left: 0;
+	right: 0;
 	width: 26vw;
 	text-align: center;
 }
