@@ -23,6 +23,12 @@ app.get('/', function(req, res){
   })
 });
 
+app.get('/individual', function(req, res){
+  res.render('individual', {
+    host: process.env.SONOS_API_HOST
+  })
+});
+
 io.on('connection', function(socket){
 });
 
