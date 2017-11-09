@@ -6,6 +6,8 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var path = require('path');
 
+require('dotenv').config();
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.engine('html', cons.swig)
