@@ -6,6 +6,8 @@ var io = require('socket.io')(http);
 var fs = require('fs');
 var path = require('path');
 
+require('dotenv').config();
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.engine('html', cons.swig)
@@ -17,6 +19,12 @@ console.log(process.env.SONOS_API_HOST);
 
 app.get('/', function(req, res){
   res.render('index', {
+    host: process.env.SONOS_API_HOST
+  })
+});
+
+app.get('/individual', function(req, res){
+  res.render('individual', {
     host: process.env.SONOS_API_HOST
   })
 });

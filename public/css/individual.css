@@ -1,0 +1,163 @@
+@font-face {
+    font-family: 'EloRegular';
+    src: url('../fonts/EloRegular.otf') format("opentype");
+}
+
+@font-face {
+    font-family: 'MochaMattari';
+    src: url('../fonts/MochaMattari.otf') format("opentype");
+}
+
+@font-face {
+    font-family: 'Parcel';
+    src: url('../fonts/Parcel.otf') format("opentype");
+}
+
+html.individual body {
+    background: none;
+}
+
+h4 {
+    margin-bottom: 1rem;
+    font-size: 9vw;
+    font-weight: 300;
+}
+
+img {
+    width: 100%;
+}
+
+.artist {
+    font-size: 12.5vw;
+    line-height: 1;
+}
+
+.album {
+    font-size: 7.5vw;
+}
+
+.elo {
+    font-family: 'EloRegular';
+}
+
+.mocha {
+    font-family: 'MochaMattari';
+}
+
+
+.parcel {
+    font-family: 'Parcel';
+}
+
+
+.circle {
+    border-radius: 50%;
+}
+
+.txt-up {
+    text-transform: uppercase;
+}
+
+.txt-c {
+    text-align: center;
+}
+
+.no-m-t {
+    margin-top: 0 !important;
+}
+
+.wrapper {
+    min-height: 100vh;
+    -webkit-transform: translate3d(0,0,0);
+            transform: translate3d(0,0,0);
+    -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+}
+
+.col {
+    position: absolute;
+}
+
+.col.prev {
+    top: 30%;
+    left: 10%;
+}
+
+.col.current {
+    top: 20%;
+    left: 28vw;
+}
+
+.col.next {
+    top: 30%;
+    left: 64%;
+}
+
+.record {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    position: relative;
+    width: 44vw;
+    height: 44vw;
+    background-image: url('../img/vinyl.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+}
+
+.current-track-info {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15% 0;
+    color: #ffffff;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    z-index: 99;
+}
+
+.current .record {
+    z-index: 99;
+}
+
+.prev .record, .next .record {
+    width: 26vw;
+    height: 26vw;
+}
+
+.record img {
+    width: 53.3%;
+    height: 53.3%;
+}
+
+.track-info {
+    position: absolute;
+    top: -40%;
+    left: 0;
+    right: 0;
+    width: 26vw;
+    text-align: center;
+}
+
+@-webkit-keyframes spin {
+    from { -webkit-transform: rotate(0deg); }
+    to { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
